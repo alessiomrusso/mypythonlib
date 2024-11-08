@@ -1,14 +1,15 @@
 name: Version Python Package
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
 
 permissions:
   contents: write
 
 jobs:
-  deploy:
+  release:
 
     runs-on: ubuntu-latest
 

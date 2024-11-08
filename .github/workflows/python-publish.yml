@@ -1,0 +1,18 @@
+name: Version Python Package
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Python Semantic Release
+      uses: python-semantic-release/python-semantic-release@v9.12.2

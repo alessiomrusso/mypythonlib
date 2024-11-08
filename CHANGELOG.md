@@ -1,6 +1,15 @@
 # CHANGELOG
 
 
+## v1.0.0 (2024-11-08)
+
+### Breaking
+
+* feat: rename module
+
+BREAKING CHANGE: myfunctions was renamed to haversine ([`5f92e32`](https://github.com/alessiomrusso/mypythonlib/commit/5f92e32034ab28cea40585906dfa90f883356bfd))
+
+
 ## v0.1.0 (2024-11-08)
 
 ### Build System

@@ -57,10 +57,10 @@ To install mypythonlib, you need to follow these steps:
 After installing the library, you can import and use it in your Python scripts:
 
 ```python
-import mypythonlib
-from mypythonlib import myfunctions
+import haversine
+from haversine import myfunctions
 
 # Example usage of the haversine function
-distance = myfunctions.haversine(lon1, lat1, lon2, lat2)
+distance = haversine.haversine(lon1, lat1, lon2, lat2)
 print(f"The distance is {distance} kilometers.")
 ```

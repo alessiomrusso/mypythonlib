@@ -18,6 +18,8 @@ jobs:
 
     - name: Install dependencies
       run: pip install -r requirements.txt
-      
+
     - name: Python Semantic Release
       uses: python-semantic-release/python-semantic-release@v9.12.2
+      env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

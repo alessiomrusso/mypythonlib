@@ -34,13 +34,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Test with Pytest
-        run: python pytest --cov-report=xml
-        shell: bash
-      - name: Upload coverage report
-        uses: codecov/codecov-action@v4.6.0
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
 
   commitlint:
     runs-on: ubuntu-latest

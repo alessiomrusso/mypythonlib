@@ -77,7 +77,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Haversine
-        path: mypythonlib/dist/haversine/haversine.exe
+        path: dist/haversine/haversine.exe
 
   release:
     runs-on: ubuntu-latest

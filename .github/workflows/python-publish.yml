@@ -71,7 +71,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Haversine
-        path: dist/Haversine.exe
+        path: haversine/dist/app.exe
 
   release:
     runs-on: ubuntu-latest
@@ -82,11 +82,10 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: Haversine
-        path: .
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
-        files: dist/Haversine.exe
+        files: Haversine
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

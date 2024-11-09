@@ -73,6 +73,12 @@ jobs:
         echo "Listing files in the current directory:"
         ls -alh
 
+      # Debugging step: List contents of the dist directory
+    - name: List contents of the current directory
+      run: |
+        echo "Listing files in the dist directory:"
+        ls -alh dist
+
     - name: Archive build artifacts
       uses: actions/upload-artifact@v4
       with:

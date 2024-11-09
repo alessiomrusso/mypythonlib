@@ -1,4 +1,4 @@
-from mypythonlib import haversine
+from mypythonlib.haversine import haversine
 
 def test_haversine():
     # Amsterdam to Berlin

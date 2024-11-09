@@ -87,6 +87,6 @@ jobs:
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
-        files: Haversine.exe
+        files: dist/Haversine.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

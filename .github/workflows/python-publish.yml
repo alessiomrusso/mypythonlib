@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
       - uses: wagoid/commitlint-github-action@v6.1.2
 
-  release:
+  version:
     needs:
       - commitlint
 
@@ -44,3 +44,49 @@ jobs:
         if: ${{ github.ref_name == 'main' || startsWith(github.ref_name, 'stable/') }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  build:
+    needs:
+      - version
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11.0'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Build executable
+      run: pyinstaller --onefile --console mypythonlib/haversine/main.py
+
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Haversine
+        path: dist/Haversine.exe
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: Haversine
+        path: .
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: Haversine.exe
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

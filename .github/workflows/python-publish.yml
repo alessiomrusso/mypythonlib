@@ -74,7 +74,7 @@ jobs:
         ls -alh
 
       # Debugging step: List contents of the dist directory
-    - name: List contents of the current directory
+    - name: List contents of the dist directory
       run: |
         echo "Listing files in the dist directory:"
         ls -alh dist
@@ -101,7 +101,7 @@ jobs:
     - name: Get version from setup.py
       id: version
       run: |
-        VERSION=$(python -m semantic_release.version)
+        VERSION=$(python -c "import setup; print(setup.__version__)")
         echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
     - name: Create Git tag

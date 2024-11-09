@@ -90,6 +90,14 @@ jobs:
     needs: build
 
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Create Git tag
+      run: |
+        git tag -a v1.0.${{ github.run_number }} -m "Release version v1.0.${{ github.run_number }}"
+        git push origin v1.0.${{ github.run_number }}
+
     - name: Download build artifacts
       uses: actions/download-artifact@v4
       with:

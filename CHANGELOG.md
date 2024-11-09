@@ -1,6 +1,35 @@
 # CHANGELOG
 
 
+## v2.0.0 (2024-11-09)
+
+### Breaking
+
+* feat: move haversine to dedicate package
+
+BREAKING CHANGE: haversine module changed package ([`2fd21f7`](https://github.com/alessiomrusso/mypythonlib/commit/2fd21f7d676400a8d29ccf98017373835d8dd5c7))
+
+### Continuous Integration
+
+* ci: automate haversine build and release ([`04811fc`](https://github.com/alessiomrusso/mypythonlib/commit/04811fca5e60bf0c6b718c1dacd8e7195a719302))
+
+* ci: remove comment ([`cd8395c`](https://github.com/alessiomrusso/mypythonlib/commit/cd8395c45970be89196efccde402812532fc78bb))
+
+* ci: fix workflow ([`49d5713`](https://github.com/alessiomrusso/mypythonlib/commit/49d571346bcaf576928c33a6877068353144b037))
+
+### Documentation
+
+* docs: update README ([`405ec9e`](https://github.com/alessiomrusso/mypythonlib/commit/405ec9ed64d77bafc41b72ead1e0628a3fa98223))
+
+### Features
+
+* feat: create haversine ui ([`aabbcee`](https://github.com/alessiomrusso/mypythonlib/commit/aabbceedf742aaad64abed36016289e24b3a0716))
+
+### Unknown
+
+* Merge branch 'main' of github.com:alessiomrusso/mypythonlib ([`d7aa6c4`](https://github.com/alessiomrusso/mypythonlib/commit/d7aa6c44741c7cd7fc97a4446f455622f1cc84d8))
+
+
 ## v1.1.0 (2024-11-08)
 
 ### Bug Fixes
@@ -8,6 +37,8 @@
 * fix: add missing exclamation mark ([`8588526`](https://github.com/alessiomrusso/mypythonlib/commit/8588526727469d9f46c4a5acd95c3aa7d4cfd3c0))
 
 ### Continuous Integration
+
+* ci: drop test job ([`a5b261e`](https://github.com/alessiomrusso/mypythonlib/commit/a5b261ea6ac068eed7204bf83e71dbe99102b0f7))
 
 * ci: remove test in workflow ([`46100c7`](https://github.com/alessiomrusso/mypythonlib/commit/46100c7a9318cb3b29db2ca912820238ef31092b))
 

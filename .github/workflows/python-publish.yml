@@ -93,10 +93,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11.0'    
+
+    - name: Get version from setup.py
+      id: version
+      run: |
+        VERSION=$(python -m semantic_release.version)
+        echo "VERSION=${VERSION}" >> $GITHUB_ENV
+
     - name: Create Git tag
       run: |
-        git tag -a v1.0.${{ github.run_number }} -m "Release version v1.0.${{ github.run_number }}"
-        git push origin v1.0.${{ github.run_number }}
+        git tag -a v${{ env.VERSION }} -m "Release version ${{ env.VERSION }}"
+        git push origin v${{ env.VERSION }}
 
     - name: Download build artifacts
       uses: actions/download-artifact@v4

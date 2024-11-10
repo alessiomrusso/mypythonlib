@@ -1,111 +1,45 @@
-name: CI
+name: Continuous Delivery
 
 on:
   push:
     branches:
       - main
-      - stable/*
-  pull_request:
-
-concurrency:
-  group: ${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
 
 jobs:
-  commitlint:
+  release:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@v6.1.2
-
-  version:
-    needs:
-      - commitlint
-
-    runs-on: ubuntu-latest
-    environment: release
     concurrency: release
+
     permissions:
       id-token: write
-      attestations: write
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      # Note: we need to checkout the repository at the workflow sha in case during the workflow
+      # the branch was updated. To keep PSR working with the configured release branches,
+      # we force a checkout of the desired release branch but at the workflow sha HEAD.
+      - name: Setup | Checkout Repository at workflow sha
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.head_ref || github.ref_name }}
+          ref: ${{ github.sha }}
 
-      - name: Release
-        uses: python-semantic-release/python-semantic-release@v9.12.2
+      - name: Setup | Force correct release branch on workflow sha
+        run: |
+          git checkout -B ${{ github.ref_name }} ${{ github.sha }}
+
+      - name: Action | Semantic Version Release
         id: release
-        if: ${{ github.ref_name == 'main' || startsWith(github.ref_name, 'stable/') }}
+        # Adjust tag with desired version if applicable.
+        uses: python-semantic-release/python-semantic-release@v9.11.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          git_committer_name: "github-actions"
+          git_committer_email: "actions@users.noreply.github.com"
 
-  build:
-    needs:
-      - version
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.11.0'
-
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
-
-    - name: Build executable
-      run: pyinstaller --onefile --console mypythonlib/haversine/main.py
-
-    # Debugging step: List contents of the current directory
-    - name: List contents of the current directory
-      run: |
-        echo "Listing files in the current directory:"
-        ls -alh
-
-      # Debugging step: List contents of the dist directory
-    - name: List contents of the dist directory
-      run: |
-        echo "Listing files in the dist directory:"
-        ls -alh dist
-
-    - name: Archive build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: Haversine
-        path: dist/main
-
-  release:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.11.0'
-
-    - name: Download build artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: Haversine
-
-    - name: Create GitHub Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: Haversine
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish | Upload to GitHub Release Assets
+        uses: python-semantic-release/publish-action@v9.8.9
+        if: steps.release.outputs.released == 'true'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.release.outputs.tag }}
